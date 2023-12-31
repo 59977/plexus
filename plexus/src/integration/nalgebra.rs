@@ -114,7 +114,7 @@ where
     }
 }
 
-impl<T, D> GraphData for Point<T, D>
+impl<T, D> GraphData for OPoint<T, D>
 where
     T: Scalar,
     D: DimName,
@@ -127,7 +127,7 @@ where
     type Face = ();
 }
 
-impl<T, D> UnitGeometry for Point<T, D>
+impl<T, D> UnitGeometry for OPoint<T, D>
 where
     T: Scalar,
     D: DimName,
@@ -161,25 +161,25 @@ macro_rules! impl_from_geometry_ordered {
             }
         }
 
-        impl<T, D> FromGeometry<Point<$p<T>, D>> for Point<T, D>
+        impl<T, D> FromGeometry<OPoint<$p<T>, D>> for OPoint<T, D>
         where
             T: Float + Primitive + Scalar,
             D: DimName,
             DefaultAllocator: Allocator<T, D> + Allocator<$p<T>, D>,
         {
-            fn from_geometry(other: Point<$p<T>, D>) -> Self {
-                Point::from(other.coords.map(|value| value.into_inner()))
+            fn from_geometry(other: OPoint<$p<T>, D>) -> Self {
+                OPoint::from(other.coords.map(|value| value.into_inner()))
             }
         }
 
-        impl<T, D> FromGeometry<Point<T, D>> for Point<$p<T>, D>
+        impl<T, D> FromGeometry<OPoint<T, D>> for OPoint<$p<T>, D>
         where
             T: Float + Primitive + Scalar,
             D: DimName,
             DefaultAllocator: Allocator<$p<T>, D> + Allocator<T, D>,
         {
-            fn from_geometry(other: Point<T, D>) -> Self {
-                Point::from(other.coords.map($p::<T>::from_inner))
+            fn from_geometry(other: OPoint<T, D>) -> Self {
+                OPoint::from(other.coords.map($p::<T>::from_inner))
             }
         }
     };
